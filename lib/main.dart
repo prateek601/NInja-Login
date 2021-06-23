@@ -102,23 +102,23 @@ class _AppState extends State<App> {
   void checkStatus() {
     User user = FirebaseAuth.instance.currentUser;
     if(FirebaseAuth.instance.currentUser == null){
-      print('user is currently signed out');
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpSignIn()));
+      print('AppUser is currently signed out');
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpSignIn()));
     }else{
-      print('user is currently signed in');
+      print('AppUser is currently signed in');
       print(user.email);
       FirebaseFirestore.instance.collection('admin').where(Constant.email,isEqualTo: user.email).get().then((value) {
         if(value!= null){
           if(value.docs.isNotEmpty){
             print('it is admin');
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdminView()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AdminView()));
           }else{
             print('it is user');
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home()));
           }
         }else{
           print('it is user');
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home()));
         }
       });
     }

@@ -108,7 +108,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                         setState(() {
                           hide = !hide;
                         });
-                      },child: Icon(hide?Icons.remove_red_eye:CupertinoIcons.eye_slash_fill,color: Constant.primaryColor,))
+                      },child: Icon(hide?Icons.visibility:Icons.visibility_off,color: Constant.primaryColor,))
                     ),
                     onChanged: (val) {
                     },

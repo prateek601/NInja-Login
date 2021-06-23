@@ -202,8 +202,11 @@ class _PhoneNumberState extends State<PhoneNumber> {
         print('code sent');
 
       },
-      timeout: const Duration(seconds: 5),
+      timeout: const Duration(seconds: 3),
       codeAutoRetrievalTimeout: (String verificationId) {
+        setState(() {
+          loading = false;
+        });
         print('time out');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => OTP(id , token)));
         // Auto-resolution timed out...

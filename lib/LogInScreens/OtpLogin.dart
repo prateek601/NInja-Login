@@ -17,126 +17,125 @@ class _OtpLoginState extends State<OtpLogin> {
 
   String otpText = '';
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Scaffold(
-            body: SingleChildScrollView(
-                child: SafeArea(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          children: [
+            Scaffold(
+                body: SingleChildScrollView(
+                    child: SafeArea(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                      flex: 1,
+                                  Row(
+                                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.arrow_back,
+                                                color: Colors.white,
+                                              ),
+                                              onPressed: () {},
+                                              splashRadius: 25,
+                                              padding: EdgeInsets.zero,
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                          )),
+                                      Expanded(
+                                          flex: 8,
+                                          child: Container(
+                                            child: Center(
+                                                child: Text(
+                                                  'Log In',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20),
+                                                )),
+                                          )),
+                                      Expanded(flex: 1, child: Container()),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    'Enter OTP',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 30),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextField(
+                                    controller: otpController,
+                                    cursorColor: Colors.black,
+                                    style: TextStyle(fontSize: 20),
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: InputBorder.none),
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Text(
+                                    otpText,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12),
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 90),
+                                    child: InkWell(
+                                      onTap: () {
+                                        onSubmitPressed();
+                                      },
+                                      borderRadius: BorderRadius.circular(25),
                                       child: Container(
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.arrow_back,
+                                        height: 50,
+                                        decoration: BoxDecoration(
                                             color: Colors.white,
-                                          ),
-                                          onPressed: () {},
-                                          splashRadius: 25,
-                                          padding: EdgeInsets.zero,
-                                          alignment: Alignment.centerLeft,
-                                        ),
-                                      )),
-                                  Expanded(
-                                      flex: 8,
-                                      child: Container(
+                                            borderRadius:
+                                            BorderRadius.circular(25)),
                                         child: Center(
                                             child: Text(
-                                              'Log In',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
+                                              loading?'Logging In...':'Log In',
+                                              style: TextStyle(color: Colors.black),
                                             )),
-                                      )),
-                                  Expanded(flex: 1, child: Container()),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'Enter OTP',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 30),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              TextField(
-                                controller: otpController,
-                                cursorColor: Colors.black,
-                                style: TextStyle(fontSize: 20),
-                                decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    border: InputBorder.none),
-                              ),
-                              SizedBox(
-                                height: 7,
-                              ),
-                              Text(
-                                otpText,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 100,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 100),
-                                child: InkWell(
-                                  onTap: () {
-                                    onSubmitPressed();
-                                  },
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadius.circular(25)),
-                                    child: Center(
-                                        child: Text(
-                                          'Log In',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              InkWell(
-                                onTap: () {
-                                  //resendOtp();
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 100,
-                                  child: Center(child: Text('Resend OTP',style: TextStyle(color: Colors.white),)),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.white,style: BorderStyle.solid,width: 0.5)
-                                  ),
-                                ),
-                              )
-                            ]))))));
+                                ]))))),
+            loading?Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(),
+            )
+                :
+            Container()
+          ],
+        )
+
+    );
   }
 
   Future<void> onSubmitPressed() async {
-    // setState(() {
-    //   loading = true;
-    // });
+    setState(() {
+      loading = true;
+    });
     String smsCode = otpController.text.trim();
 
     try {
@@ -151,6 +150,7 @@ class _OtpLoginState extends State<OtpLogin> {
     catch(e){
       print(e);
       setState(() {
+        loading = false;
         otpText = 'The OTP you entered is not correct';
       });
     }

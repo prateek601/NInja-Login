@@ -22,7 +22,9 @@ class _UserSearchState extends State<UserSearch> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    nameController.removeListener(() { });
     nameController.dispose();
+
   }
 
   @override

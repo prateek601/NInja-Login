@@ -20,14 +20,19 @@ class _OTPState extends State<OTP> {
 
   String otpText = '';
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Scaffold(
-            body: SingleChildScrollView(
+        child:
+        Stack(
+          children: [
+            Scaffold(
+                body: SingleChildScrollView(
                     child: SafeArea(
                         child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -56,11 +61,11 @@ class _OTPState extends State<OTP> {
                                           child: Container(
                                             child: Center(
                                                 child: Text(
-                                              'Create Account',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            )),
+                                                  'Create Account',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20),
+                                                )),
                                           )),
                                       Expanded(flex: 1, child: Container()),
                                     ],
@@ -98,7 +103,7 @@ class _OTPState extends State<OTP> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 70),
+                                        horizontal: 60),
                                     child: InkWell(
                                       onTap: () {
                                         onSubmitPressed();
@@ -109,22 +114,31 @@ class _OTPState extends State<OTP> {
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                                BorderRadius.circular(25)),
+                                            BorderRadius.circular(25)),
                                         child: Center(
-                                            child: Text(
-                                          'Create Account',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
+                                            child: Text(loading?'Creating Account...':
+                                              'Create Account',
+                                              style: TextStyle(color: Colors.black),
+                                            )),
                                       ),
                                     ),
                                   )
-                                ]))))));
+                                ]))))),
+            loading?Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(),
+            )
+                :
+            Container()
+          ],
+        )
+    );
   }
 
   Future<void> onSubmitPressed() async {
-    // setState(() {
-    //   loading = true;
-    // });
+    setState(() {
+      loading = true;
+    });
     final box = GetStorage();
     String smsCode = otpController.text.trim();
 
@@ -159,6 +173,7 @@ class _OTPState extends State<OTP> {
       print(e);
       setState(() {
         otpText = 'The OTP you entered is not correct';
+        loading = false;
       });
     }
 
